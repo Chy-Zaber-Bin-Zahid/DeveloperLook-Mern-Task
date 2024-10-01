@@ -1,5 +1,5 @@
 "use client"
-import React, { useState } from 'react'
+import React, { useState, useRef, useEffect } from 'react'
 import { Button } from "@/components/ui/button"
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
 import { Calendar } from "@/components/ui/calendar"
@@ -13,10 +13,23 @@ function NavbarBottom() {
     const [children, setChildren] = useState<number>(0)
     const [infants, setInfants] = useState<number>(0)
     const [pets, setPets] = useState<number>(0)
+    const [clicked, setClicked] = useState<number | null>(null)
     const [dateRange, setDateRange] = useState<DateRange | undefined>({
         from: undefined,
         to: undefined
     })
+    const popoverRef = useRef<HTMLDivElement>(null);
+    useEffect(() => {
+        const handleClickOutside = (event: MouseEvent) => {
+            if (popoverRef.current && !popoverRef.current.contains(event.target as Node)) {
+                setClicked(null);
+            }
+        };
+        document.addEventListener("mousedown", handleClickOutside);
+        return () => {
+            document.removeEventListener("mousedown", handleClickOutside);
+        };
+    }, []);
 
     const regions = [
         { name: "I'm flexible", icon: "/placeholder.svg?height=50&width=50" },
@@ -26,19 +39,20 @@ function NavbarBottom() {
         { name: "Malaysia", icon: "/placeholder.svg?height=50&width=50" },
         { name: "United States", icon: "/placeholder.svg?height=50&width=50" },
     ]
+
     return (
         <div className="flex justify-center max-w-[850px] mx-auto">
-            <div className="flex items-center space-x-4 border rounded-full p-2 shadow-md w-full">
+            <div ref={popoverRef} className={`flex items-center border rounded-full shadow-md w-full ${clicked !== null ? "bg-gray-200" : ""}`}>
                 <Popover>
                     <PopoverTrigger asChild>
-                        <Button variant="ghost" className="rounded-full flex-1 justify-start">
+                        <Button onClick={() => setClicked(0)} variant="ghost" className={`rounded-full flex-1 justify-start py-8 pr-2 pl-6 ${clicked === 0 ? "bg-white hover:bg-white shadow-[0_0_10px_rgba(0,0,0,0.2)]" : "hover:bg-gray-100"}`}>
                             <div className="text-left">
                                 <div className="font-semibold">Where</div>
                                 <div className="text-sm text-gray-500">Search destinations</div>
                             </div>
                         </Button>
                     </PopoverTrigger>
-                    <PopoverContent className="w-80" align="start">
+                    <PopoverContent className="w-[425px] mt-2 rounded-3xl" align="start">
                         <h2 className="text-lg font-semibold mb-4">Search by region</h2>
                         <div className="grid grid-cols-3 gap-4">
                             {regions.map((region, index) => (
@@ -50,17 +64,17 @@ function NavbarBottom() {
                         </div>
                     </PopoverContent>
                 </Popover>
-                <div className="h-6 w-px bg-gray-300"></div>
+                {(clicked !== 0 && clicked !== 1) ? <div className="h-8 w-px bg-gray-300"></div> : null}
                 <Popover>
                     <PopoverTrigger asChild>
-                        <Button variant="ghost" className="rounded-full">
+                        <Button onClick={() => setClicked(1)} variant="ghost" className={`rounded-full w-36 flex justify-start items-center py-8 px-6 ${clicked === 1 ? "bg-white hover:bg-white shadow-[0_0_10px_rgba(0,0,0,0.2)]" : "hover:bg-gray-100"}`}>
                             <div className="text-left">
                                 <div className="font-semibold">Check in</div>
                                 <div className="text-sm text-gray-500">Add dates</div>
                             </div>
                         </Button>
                     </PopoverTrigger>
-                    <PopoverContent className="w-auto p-0" align="start">
+                    <PopoverContent className="w-[850px] mr-[257px] rounded-3xl mt-2 p-0" align="start">
                         <Tabs defaultValue="dates" className="w-full">
                             <TabsList className="w-full">
                                 <TabsTrigger value="dates" className="flex-1">Dates</TabsTrigger>
@@ -85,17 +99,17 @@ function NavbarBottom() {
                         </Tabs>
                     </PopoverContent>
                 </Popover>
-                <div className="h-6 w-px bg-gray-300"></div>
+                {(clicked !== 1 && clicked !== 2) ? <div className="h-8 w-px bg-gray-300"></div> : null}
                 <Popover>
                     <PopoverTrigger asChild>
-                        <Button variant="ghost" className="rounded-full">
+                        <Button onClick={() => setClicked(2)} variant="ghost" className={`rounded-full w-36 flex justify-start items-center py-8 px-6 ${clicked === 2 ? "bg-white hover:bg-white shadow-[0_0_10px_rgba(0,0,0,0.2)]" : "hover:bg-gray-100"}`}>
                             <div className="text-left">
                                 <div className="font-semibold">Check out</div>
                                 <div className="text-sm text-gray-500">Add dates</div>
                             </div>
                         </Button>
                     </PopoverTrigger>
-                    <PopoverContent className="w-auto p-0" align="start">
+                    <PopoverContent className="w-[850px] mr-[257px] rounded-3xl mt-2 p-0" align="start">
                         <Tabs defaultValue="dates" className="w-full">
                             <TabsList className="w-full">
                                 <TabsTrigger value="dates" className="flex-1">Dates</TabsTrigger>
@@ -120,17 +134,23 @@ function NavbarBottom() {
                         </Tabs>
                     </PopoverContent>
                 </Popover>
-                <div className="h-6 w-px bg-gray-300"></div>
+                {(clicked !== 2 && clicked !== 3) ? <div className="h-8 w-px bg-gray-300"></div> : null}
                 <Popover>
                     <PopoverTrigger asChild>
-                        <Button variant="ghost" className="rounded-full">
-                            <div className="text-left">
-                                <div className="font-semibold">Who</div>
-                                <div className="text-sm text-gray-500">Add guests</div>
+                        <Button onClick={() => setClicked(3)} variant="ghost" className={`rounded-full flex-1 py-8 pr-2 pl-6 ${clicked === 3 ? "bg-white hover:bg-white shadow-[0_0_10px_rgba(0,0,0,0.2)]" : "hover:bg-gray-100"}`}>
+                            <div className="flex justify-between items-center w-full">
+                                <div className="text-left">
+                                    <div className="font-semibold">Who</div>
+                                    <div className="text-sm text-gray-500">Add guests</div>
+                                </div>
+                                <div className={`rounded-full ${clicked === null ? "bg-[#FF385C] hover:bg-[#E41D58]" : "bg-[#E41D58] hover:bg-[#FF385C] transition-all duration-1000"} text-white px-4 flex justify-center items-center gap-2 h-12 text-[17px]`}>
+                                    <SearchIcon className="h-4 w-4" />
+                                    {clicked !== null ? <span>Search</span> : null}
+                                </div>
                             </div>
                         </Button>
                     </PopoverTrigger>
-                    <PopoverContent className="w-72 p-0" align="end">
+                    <PopoverContent className="w-[425px] mt-2 rounded-3xl" align="end">
                         <div className="p-4 space-y-6">
                             <div className="flex justify-between items-center">
                                 <div>
@@ -195,10 +215,6 @@ function NavbarBottom() {
                         </div>
                     </PopoverContent>
                 </Popover>
-                <Button size="lg" className="rounded-full bg-pink-500 hover:bg-pink-600 text-white px-6">
-                    <SearchIcon className="h-4 w-4 mr-2" />
-                    Search
-                </Button>
             </div>
         </div>
     )

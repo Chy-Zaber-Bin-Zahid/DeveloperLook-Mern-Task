@@ -40,10 +40,10 @@ function NavbarTop() {
                         <DropdownMenuItem className="font-semibold px-4 py-3">
                             Sign up
                         </DropdownMenuItem>
-                        <DropdownMenuItem className="px-4 py-3">
+                        <DropdownMenuItem className="px-4 py-3 border-b pb-5">
                             Log in
                         </DropdownMenuItem>
-                        <DropdownMenuItem className="px-4 py-3">
+                        <DropdownMenuItem className="px-4 py-3 pt-5">
                             Gift cards
                         </DropdownMenuItem>
                         <DropdownMenuItem className="px-4 py-3">
