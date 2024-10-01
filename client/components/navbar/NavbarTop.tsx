@@ -11,7 +11,7 @@ import Image from 'next/image'
 
 function NavbarTop() {
     return (
-        <nav className="flex items-center justify-between p-4 max-w-7xl mx-auto">
+        <nav className="flex items-center justify-between py-4 max-w-bigScreen mx-auto">
             <div className="pr-24">
                 <Image
                     src="/assets/airbnb-logo.svg"
