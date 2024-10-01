@@ -32,12 +32,12 @@ function NavbarBottom() {
     }, []);
 
     const regions = [
-        { name: "I'm flexible", icon: "/placeholder.svg?height=50&width=50" },
-        { name: "Southeast Asia", icon: "/placeholder.svg?height=50&width=50" },
-        { name: "Canada", icon: "/placeholder.svg?height=50&width=50" },
-        { name: "Europe", icon: "/placeholder.svg?height=50&width=50" },
-        { name: "Malaysia", icon: "/placeholder.svg?height=50&width=50" },
-        { name: "United States", icon: "/placeholder.svg?height=50&width=50" },
+        { name: "I'm flexible", icon: "1.jpg" },
+        { name: "Southeast Asia", icon: "2.webp" },
+        { name: "Canada", icon: "3.webp" },
+        { name: "Europe", icon: "4.webp" },
+        { name: "Malaysia", icon: "5.webp" },
+        { name: "United States", icon: "6.webp" },
     ]
 
     return (
@@ -46,20 +46,33 @@ function NavbarBottom() {
                 <Popover>
                     <PopoverTrigger asChild>
                         <Button onClick={() => setClicked(0)} variant="ghost" className={`rounded-full flex-1 justify-start py-8 pr-2 pl-6 ${clicked === 0 ? "bg-white hover:bg-white shadow-[0_0_10px_rgba(0,0,0,0.2)]" : "hover:bg-gray-100"}`}>
-                            <div className="text-left">
+                            <div className="text-left w-full">
                                 <div className="font-semibold">Where</div>
-                                <div className="text-sm text-gray-500">Search destinations</div>
+                                <input type="text" placeholder="Search destinations" className="w-full pr-3 bg-transparent font-normal outline-none" />
                             </div>
                         </Button>
                     </PopoverTrigger>
-                    <PopoverContent className="w-[425px] mt-2 rounded-3xl" align="start">
-                        <h2 className="text-lg font-semibold mb-4">Search by region</h2>
-                        <div className="grid grid-cols-3 gap-4">
+                    <PopoverContent className="w-[425px] mt-2 rounded-3xl overflow-y-auto" align="start">
+                        <h2 className="text-lg font-semibold my-3 pl-2">Search by region</h2>
+                        <div className="grid grid-cols-3 h-[300px] mb-8">
                             {regions.map((region, index) => (
-                                <Button key={index} variant="outline" className="flex flex-col items-center p-4">
-                                    <Image src={region.icon} alt={region.name} width={50} height={50} />
-                                    <span className="mt-2 text-sm">{region.name}</span>
-                                </Button>
+                                <div className="w-full rounded-xl group hover:bg-gray-200" key={index}>
+                                    <Button
+                                        variant="ghost"
+                                        className="pt-3 px-2 bg-transparent hover:bg-transparent border-none w-full flex flex-col h-32 justify-center items-start relative"
+                                    >
+                                        <div className="h-full w-full relative rounded-xl overflow-hidden">
+                                            <Image
+                                                src={`/assets/where/${region.icon}`}
+                                                alt={region.name}
+                                                fill
+                                                style={{ objectFit: "cover" }}
+                                                className='absolute rounded-xl border border-gray-300'
+                                            />
+                                        </div>
+                                    </Button>
+                                    <p className='group-hover:bg-gray-200 pb-3 px-2 rounded-b-xl text-sm' >{region.name}</p>
+                                </div>
                             ))}
                         </div>
                     </PopoverContent>
