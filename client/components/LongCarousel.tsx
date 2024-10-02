@@ -4,7 +4,7 @@ import * as React from "react"
 import { ChevronLeftIcon, ChevronRightIcon, HomeIcon, BedIcon, StarIcon, CastleIcon, SunIcon, ImageIcon, CoffeeIcon, MountainIcon, SnowflakeIcon, PianoIcon } from "lucide-react"
 
 const categories = [
-    { icon: <HomeIcon />, name: "Icons" },
+    { icon: <HomeIcon />, name: "Fashion" },
     { icon: <BedIcon />, name: "Rooms" },
     { icon: <StarIcon />, name: "Luxury escapes" },
     { icon: <CastleIcon />, name: "Mansions" },
@@ -46,7 +46,11 @@ const categories = [
     { icon: <BedIcon />, name: "Family suites" },
 ]
 
-export default function LongCarousel() {
+type LongCarousel = {
+    handleCategoryClick: (category: string) => void;
+}
+
+export default function LongCarousel({ handleCategoryClick }: LongCarousel) {
     const [currentIndex, setCurrentIndex] = React.useState(0)
     const itemsPerPage = 10
     const totalPages = Math.ceil(categories.length / itemsPerPage)
@@ -60,7 +64,7 @@ export default function LongCarousel() {
     }
 
     return (
-        <div className="relative w-full overflow-hidden py-2  sh">
+        <div className="relative w-full overflow-hidden py-2">
             <div
                 className="flex transition-transform duration-300 ease-in-out"
                 style={{ transform: `translateX(-${currentIndex * 100}%)` }}
@@ -69,7 +73,11 @@ export default function LongCarousel() {
                     <div key={pageIndex} className="flex-shrink-0 w-full">
                         <div className="flex justify-between items-center">
                             {categories.slice(pageIndex * itemsPerPage, (pageIndex + 1) * itemsPerPage).map((category, index) => (
-                                <div key={index} className="flex flex-col items-center justify-center mx-2">
+                                <div
+                                    key={index}
+                                    className="flex flex-col items-center justify-center mx-2 cursor-pointer"
+                                    onClick={() => handleCategoryClick(category.name)}
+                                >
                                     <div className="text-3xl">{category.icon}</div>
                                     <div className="text-xs text-center font-medium">{category.name}</div>
                                 </div>

@@ -5,7 +5,7 @@ const createError = require("http-errors");
 
 const { errorResponse } = require("./controllers/responseController");
 const cors = require("cors");
-const userRouter = require("./routers/userRouter");
+const cardRouter = require("./routers/cardRouter");
 
 const app = express();
 
@@ -16,7 +16,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static("public"));
 
 // Router
-app.use("/api/user", userRouter);
+app.use("/api", cardRouter);
 
 // Client error handling
 app.use((req, res, next) => {
